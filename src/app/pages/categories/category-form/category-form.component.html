@@ -1,0 +1,24 @@
+<app-card-widget>
+    <h3 card-title>{{ formType }} {{ title }}</h3>
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" card-footer class="m-0 p-0">
+        <div class="p-mt-4">
+            <input 
+                type="text" 
+                formControlName="name" 
+                pInputText 
+                placeholder="Category Name"
+                [class.ng-dirty]="(
+                    controlCheck('name').hasError('required') && controlCheck('name')?.dirty) ||
+                    (isSubmitted && controlCheck('name'))
+                ">
+            <p-message 
+                *ngIf="(controlCheck('name').hasError('required')   && controlCheck('name')?.dirty) || 
+                        (isSubmitted && controlCheck('name').hasError('required'))" 
+                class="mx-2" 
+                severity="error" 
+                text="Field is required">
+            </p-message>
+        </div>
+        <button pButton class="my-2" icon="pi pi-save" type="submit" label="Save"></button>
+    </form>
+</app-card-widget>

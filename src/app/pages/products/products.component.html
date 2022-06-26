@@ -1,0 +1,52 @@
+<ng-container *ngIf="products$ | async as products" class="flex flex-wrap">
+    <p-table #dt [value]="products"  class="flex-1 m-4 text-center" [rows]="5" [paginator]="true" responsiveLayout="scroll"
+        [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Products</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="price">Product <p-sortIcon field="product"></p-sortIcon></th>
+                <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
+                <th>Categories</th>
+                <th>Operation</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>
+                    <p-tableCheckbox value="product"></p-tableCheckbox>
+                </td>
+                <td>
+                    <a [routerLink]="['/products', product.id]">{{product.name}}</a>
+                </td>
+                <td>{{product.price | currency:'USD'}}</td>
+                <td>
+                    <p-tag 
+                        *ngFor="let category of product.categories"
+                        [routerLink]="['/categories', category.id]"
+                        [value]="category.name" 
+                        icon="pi pi-tag" 
+                        severity="success"
+                        class="mr-2"
+                    ></p-tag>
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="onEdit(product.id, product)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(product.id)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</ng-container>
+<app-toast-confirm 
+    [listName]="title"
+    [message]="confirmMessage"
+    [id]="deleteId">
+</app-toast-confirm>

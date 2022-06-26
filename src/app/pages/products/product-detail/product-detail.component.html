@@ -1,0 +1,22 @@
+<p-card *ngIf="product$ | async as product">
+    <h1>{{product?.name}}</h1>
+    <h3>{{product?.price  | currency:'USD'}}</h3>
+    <div class="my-2" *ngIf="product.categories.length">
+        <p-tag 
+            *ngFor="let category of product.categories"
+            [routerLink]="['/categories', category.id]"
+            [value]="category.name" 
+            icon="pi pi-tag" 
+            severity="success"
+            class="mr-2"
+        ></p-tag>
+    </div>
+
+    <button pButton type="button" [routerLink]="['/products', 'new']" label="Add"></button>
+    <button pButton type="button" [routerLink]="['/products', product.id, 'edit']" label="Edit"  class="mx-2"></button>
+</p-card>
+
+
+
+
+

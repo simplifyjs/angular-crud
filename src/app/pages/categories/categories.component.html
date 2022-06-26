@@ -1,0 +1,44 @@
+<ng-container *ngIf="categories$ | async as categories">
+        <p-table #dt [value]="categories"  class="flex-1 m-4 text-center" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+            [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0">Manage Categories</h5>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th> 
+                    <th pSortableColumn="price">Category <p-sortIcon field="category"></p-sortIcon></th>
+                    <th>Operation</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-category>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="category"></p-tableCheckbox>
+                    </td>
+                    <td >
+                        <a [routerLink]="['/categories', category.id]">{{category.name}}</a>
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="onEdit(category.id)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(category.id)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+           <div class="flex align-items-center justify-content-between">
+                    In total there are {{categories ? categories.length : 0 }} categories.
+                </div>
+            </ng-template>
+        </p-table>
+    </ng-container>
+<app-toast-confirm 
+    [listName]="title"
+    [message]="confirmMessage"
+    [id]="deleteId">
+</app-toast-confirm>

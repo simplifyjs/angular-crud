@@ -1,0 +1,55 @@
+<app-card-widget>
+    <h3 card-title>{{ formType }} {{ title }}</h3>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" card-footer  class="m-2">
+        <div class="p-mt-4">
+            <div class="my-2">
+                <input 
+                    type="text" 
+                    formControlName="name" 
+                    pInputText 
+                    placeholder="Product name"
+                    [class.ng-dirty]="isRequiredDirty('name', 'required') || isRequiredSubmitted('name', 'required')">
+                <p-message 
+                    *ngIf="isRequiredDirty('name', 'required') || isRequiredSubmitted('name', 'required')" 
+                    class="mx-2" 
+                    severity="error" 
+                    text="Field is required">
+                </p-message>
+            </div>
+            <div class="my-2">
+                <input 
+                    type="number" 
+                    formControlName="price" 
+                    pInputText 
+                    placeholder="Price" 
+                    [class.ng-dirty]="isRequiredDirty('price', 'required') || isRequiredSubmitted('price', 'required')">
+                <p-message 
+                    *ngIf="isRequiredDirty('price', 'required') || isRequiredSubmitted('price', 'required')" 
+                    class="mx-2" 
+                    severity="error" 
+                    text="Field is required">
+                </p-message>
+                <p-message 
+                    *ngIf="isRequiredDirty('price', 'pattern') || isRequiredSubmitted('price', 'pattern')" 
+                    class="mx-2" 
+                    severity="error" 
+                    text="Should enter valid number">
+                </p-message>
+            </div>
+            <div class="my-4">
+                <label>Categories</label>
+                <ng-container *ngFor="let category of categoriesOpt">
+                    <div class="my-2">
+                        <input type="checkbox"
+                            formArrayName="categories" 
+                            (change)="onCheckboxChange(category)"
+                            [checked]="category.selected"
+                            [value]="category.id" >
+                        <label>{{category.name}}</label>
+                    </div>
+                </ng-container>
+ </div>
+        </div>
+        <button pButton class="my-2" icon="pi pi-save" type="submit" label="Save"></button>
+    </form>
+</app-card-widget>
